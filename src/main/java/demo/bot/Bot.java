@@ -57,22 +57,22 @@ public class Bot {
             String senderName = message.from().firstName();
             Integer messageId = message.messageId();
 
-            new EditMessageText(chatId, messageId, message.text())
-                .replyMarkup(
-                    new InlineKeyboardMarkup(
-                        new InlineKeyboardButton("\uD83E\uDEA8")
-                                .callbackData(String.format("%d %s %s %s,",
-                                        chatId, senderName, senderChose, "0")),
+            request = new EditMessageText(chatId, messageId, message.text())
+                    .replyMarkup(
+                            new InlineKeyboardMarkup(
+                                    new InlineKeyboardButton("\uD83E\uDEA8")
+                                            .callbackData(String.format("%d %s %s %s,",
+                                                    chatId, senderName, senderChose, "0")),
 
-                        new InlineKeyboardButton("✂️")
-                                .callbackData(String.format("%d %s %s %s,",
-                                chatId, senderName, senderChose, "1")),
+                                    new InlineKeyboardButton("✂️")
+                                            .callbackData(String.format("%d %s %s %s,",
+                                                    chatId, senderName, senderChose, "1")),
 
-                        new InlineKeyboardButton("\uD83D\uDDDE")
-                                .callbackData(String.format("%d %s %s %s,",
-                                chatId, senderName, senderChose, "2"))
-                    )
-                );
+                                    new InlineKeyboardButton("\uD83D\uDDDE")
+                                            .callbackData(String.format("%d %s %s %s,",
+                                                    chatId, senderName, senderChose, "2"))
+                            )
+                    );
 
         } else if(inlineQuery != null){
             InlineQueryResultArticle stone =
@@ -84,7 +84,7 @@ public class Bot {
             InlineQueryResultArticle paper =
                     getInline("paper", "\uD83D\uDDDE Paper", "2");
 
-            request = new AnswerInlineQuery(inlineQuery.id(), stone, scissors, paper);
+            request = new AnswerInlineQuery(inlineQuery.id(), stone, scissors, paper).cacheTime(1);
 
             if (callbackQuery == null) {
                 logger.debug("callbackQuery is null");
