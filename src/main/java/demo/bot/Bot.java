@@ -12,9 +12,14 @@ import com.pengrad.telegrambot.model.request.InlineQueryResultArticle;
 import com.pengrad.telegrambot.request.AnswerInlineQuery;
 import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.EditMessageText;
-import com.pengrad.telegrambot.request.SendMessage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Bot {
+
+    private final Logger logger = LoggerFactory.getLogger(Bot.class);
+
     private final String PROCESSING = "Processing...";
     TelegramBot bot = new TelegramBot(System.getenv("BOT_TOKEN"));
 
@@ -68,6 +73,7 @@ public class Bot {
                                 chatId, senderName, senderChose, "2"))
                     )
                 );
+
         } else if(inlineQuery != null){
             InlineQueryResultArticle stone =
                     getInline("stone", "\uD83E\uDEA8 Stone", "0");
@@ -80,6 +86,9 @@ public class Bot {
 
             request = new AnswerInlineQuery(inlineQuery.id(), stone, scissors, paper);
 
+            if (callbackQuery == null) {
+                logger.debug("callbackQuery is null");
+            }
         }/* else if(message != null){
             long chatId = message.chat().id();
             request = new SendMessage(chatId, "I am only your bot");
